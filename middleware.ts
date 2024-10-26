@@ -14,7 +14,7 @@ export default clerkMiddleware(async (auth, req) => {
   // Check if the user ID is not equal to the specified ID
   if (userId !== "user_2nK2ExRVxqJFzFBdvPuhLoatgeI" && isProtectedRoute(req)) {
     // Redirect to the homepage
-    return Response.redirect('http://localhost:3000/globalRedirect', 302)
+    return Response.redirect('https://shopco-next.onrender.com/globalRedirect', 302)
   }
 })
 
