@@ -127,7 +127,7 @@ var CheckoutForm = function (_a) {
                             clientSecret: clientSecret,
                             elements: elements,
                             confirmParams: {
-                                return_url: 'https://shopco-next.onrender.com/payment-confirm'
+                                return_url: 'https://shopco-ecommerce.vercel.app/payment-confirm'
                             }
                         })];
                 case 7:
