@@ -170,11 +170,11 @@ useEffect(() => {
      <Link className=' justify-start items-center hover:bg-gray-100 transition-colors duration-300 hover:text-gray-500   md:hidden text-xl tracking-widest uppercase font-bold flex py-3 px-5 border-b border-b-gray-100  ' href={"/myOrders"}>
            My Orders
           </Link>
-   {user && user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" && (
-          <Link className='flex justify-center items-center ' href={"/admin"}>
-            <ButtonIcon className='bg-black  text-white  mt-5  py-2 px-2 rounded-xl'>Admin</ButtonIcon>
-          </Link>
-         )}    
+          {user && (user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" || user.user?.primaryEmailAddress?.emailAddress === "nassergamal2222@gmail.com") && (
+  <Link className='flex justify-center items-center' href={"/admin"}>
+    <ButtonIcon className='bg-black text-white mt-5 py-2 px-2 rounded-xl'>Admin</ButtonIcon>
+  </Link>
+)}
 
     </ul>
   </div>
@@ -213,11 +213,11 @@ useEffect(() => {
           </Link>
   
 
-    {user && user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" && (
-          <Link href={"/admin"}>
-            <ButtonIcon className='bg-black hidden sm:block text-white text-left   sm:py-2 sm:px-2 sm:rounded-xl'>Admin</ButtonIcon>
-          </Link>
-         )}    
+          {user && (user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" || user.user?.primaryEmailAddress?.emailAddress === "nassergamal2222@gmail.com") && (
+  <Link className='flex justify-center items-center' href={"/admin"}>
+    <ButtonIcon className='bg-black text-white mt-5 py-2 px-2 rounded-xl'>Admin</ButtonIcon>
+  </Link>
+)} 
        
 
       {/* Search icon for small screens */}
