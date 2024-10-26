@@ -125,7 +125,7 @@ var Navbar = function () {
             react_1["default"].createElement("div", { className: "flex items-center gap-0.5  md:gap-1 lg:gap-2" },
                 react_1["default"].createElement(link_1["default"], { className: ' justify-center items-center text-base font-medium hidden md:flex hover:text-gray-500 ', href: "/myOrders" }, "My Orders"),
                 user && (((_h = (_g = user.user) === null || _g === void 0 ? void 0 : _g.primaryEmailAddress) === null || _h === void 0 ? void 0 : _h.emailAddress) === "walidemad998@gmail.com" || ((_k = (_j = user.user) === null || _j === void 0 ? void 0 : _j.primaryEmailAddress) === null || _k === void 0 ? void 0 : _k.emailAddress) === "nassergamal2222@gmail.com") && (react_1["default"].createElement(link_1["default"], { className: 'flex justify-center items-center', href: "/admin" },
-                    react_1["default"].createElement(ButtonIcon_1["default"], { className: 'bg-black text-white mt-5 py-2 px-2 rounded-xl' }, "Admin"))),
+                    react_1["default"].createElement(ButtonIcon_1["default"], { className: 'bg-black text-white  py-2 px-2 rounded-xl' }, "Admin"))),
                 react_1["default"].createElement(ButtonIcon_1["default"], { onClick: toggleSearch, className: "lg:hidden block text-gray-600 ", "aria-label": "Search" },
                     react_1["default"].createElement(bi_1.BiSearch, { size: 24 })),
                 isSignedIn ? (

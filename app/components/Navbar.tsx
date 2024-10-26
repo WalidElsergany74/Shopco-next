@@ -215,7 +215,7 @@ useEffect(() => {
 
           {user && (user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" || user.user?.primaryEmailAddress?.emailAddress === "nassergamal2222@gmail.com") && (
   <Link className='flex justify-center items-center' href={"/admin"}>
-    <ButtonIcon className='bg-black text-white mt-5 py-2 px-2 rounded-xl'>Admin</ButtonIcon>
+    <ButtonIcon className='bg-black text-white  py-2 px-2 rounded-xl'>Admin</ButtonIcon>
   </Link>
 )} 
        
