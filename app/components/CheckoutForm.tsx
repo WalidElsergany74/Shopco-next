@@ -77,7 +77,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
         clientSecret,
         elements,
         confirmParams: {
-          return_url: 'http://localhost:3000/payment-confirm',
+          return_url: 'https://shopco-next.onrender.com/payment-confirm',
         },
       });
 
