@@ -138,7 +138,7 @@ const submitForm:SubmitHandler<Inputs> = async (data) => {
       const uploadImage = async (image: File) => {
         const uploadFormData = new FormData();
         uploadFormData.append('files', image);
-        const uploadResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/upload`, uploadFormData);
+        const uploadResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/upload`, uploadFormData);
         console.log('Upload Response:', uploadResponse.data); // فحص البيانات التي يتم إرجاعها
         return uploadResponse.data[0].id; // تأكد من وجود الـ id في هذه البيانات
       };
@@ -168,7 +168,7 @@ const submitForm:SubmitHandler<Inputs> = async (data) => {
       console.log("Form Data:", Array.from(formData.entries()))
   
       // إرسال البيانات إلى Strapi
-      const response = await axios.post(`${process.env.NEXT_STRAPI_URL}/products?populate=*`, formData);
+      const response = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*`, formData);
   
       console.log("Response data:", response.data);
   

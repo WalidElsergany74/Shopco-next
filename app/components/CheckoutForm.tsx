@@ -11,6 +11,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const { userId } = useAuth();
+  console.log(userId)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [cartProducts, setCartProducts] = useState<ICartItem[]>([]);
@@ -25,7 +26,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       if (userId) {
         try {
           const response = await axios.get(
-            `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}`
+            `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}`
           );
           const cartData = response.data.data[0]; // Assuming the user has only one cart
           setExistingCart(cartData);
@@ -109,7 +110,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
       }
 
       const shippingResponse = await axios.post(
-        `${process.env.NEXT_STRAPI_URL}/shippings`,
+        `https://strapi-ecommerce-demo2.onrender.com/api/shippings`,
         formData
       );
 
@@ -119,7 +120,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
         const orderData = {
           amount,
-          userId,
+          userId : userId,
           shipping: shippingId,
           cart_items: cartProducts.map((item) => ({
             id: item.id,
@@ -127,13 +128,13 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
         };
 
         const orderResponse = await axios.post(
-          `${process.env.NEXT_STRAPI_URL}/orders?populate=*`,
+          `https://strapi-ecommerce-demo2.onrender.com/api/orders?populate=*`,
           { data: orderData }
         );
 
         if (orderResponse.status === 200 || orderResponse.status === 201) {
           const cartId = existingCart?.documentId;
-          await axios.delete(`${process.env.NEXT_STRAPI_URL}/carts/${cartId}`);
+          await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${cartId}`);
         }
       }
     } catch (error) {

@@ -15,7 +15,7 @@ export function Alert({ open, handleOpen, products, documentId }: { open: boolea
 
         setIsLoading(true);
         try {
-            await axios.delete(`${process.env.NEXT_STRAPI_URL}/products/${product.documentId}`);
+            await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/products/${product.documentId}`);
         } catch (error) {
             console.log(error);
         } finally {

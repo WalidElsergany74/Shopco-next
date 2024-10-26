@@ -78,7 +78,7 @@ const ProductsCo = ({data , id , colors  } : {data : IFiltered[] , id : string ,
          }
 
   const { data: productsData, isLoading } = useSWR(
-      `${process.env.NEXT_STRAPI_URL}/products?populate=*&filters[category][documentId]=${id}${subCategoriesQuery}${colorsQuery}&filters[price][$lte]=${maxPrice}&${sortQuery}`,
+      `https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*&filters[category][documentId]=${id}${subCategoriesQuery}${colorsQuery}&filters[price][$lte]=${maxPrice}&${sortQuery}`,
       fetcher
   );
 

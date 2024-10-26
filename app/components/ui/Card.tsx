@@ -41,7 +41,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
       
      
       const { data: existingCart, mutate } = useSWR(
-        userId ? `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
+        userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
         fetcher, {refreshInterval : 1000}
       );
 
@@ -79,7 +79,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
             if (!existingCart || existingCart.length === 0) {
                 
                 console.log("Creating a new cart with data:", cartData);
-                const newCartResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/carts`, {
+                const newCartResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/carts`, {
                     data: {
                         userId: userId,
                         cart_items: cartProducts.map((item) => ({
@@ -108,7 +108,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
     
               
                 console.log("Updating existing cart item:", existingItem);
-                await axios.put(`${process.env.NEXT_STRAPI_URL}/cart-items/${existingItem.documentId}`, {
+                await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existingItem.documentId}`, {
                   data: {
                               quantity: newQuantity,
                               totalItem: updatedTotalItemPrice,
@@ -121,13 +121,13 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                 });
             } else {
               
-                const addResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/cart-items`, { data: cartData });
+                const addResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items`, { data: cartData });
     
                 const updatedCartItems = [...existingCartItems, addResponse.data.data];
     
                 // تحديث السلة بدمج العناصر القديمة والجديدة
                 console.log("Updating cart with new items:", updatedCartItems);
-                await axios.put(`${process.env.NEXT_STRAPI_URL}/carts/${updatedCart.documentId}`, {
+                await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${updatedCart.documentId}`, {
                     data: {
                         cart_items: updatedCartItems.map((item: ICartItem) => item.documentId),
                     },

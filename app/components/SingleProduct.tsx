@@ -19,11 +19,10 @@ import { useRouter } from "next/navigation";
 
 
 const SingleProduct = ({product , products} : {product : IProduct , products : IProduct[]}) => {
-   
  
      
   const sameNameProducts = products?.filter(
-    (item :IProduct) => item.title === product.title && item.documentId !== product.documentId
+    (item :IProduct) => item.title === product?.title && item.documentId !== product?.documentId
   );
  
 
@@ -52,7 +51,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
       
       // استخدام SWR لجلب بيانات السلة
       const { data: existingCart, mutate } = useSWR(
-        userId ? `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
+        userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
         fetcher, {refreshInterval : 1000}
       );
 
@@ -71,15 +70,15 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
     
         setSelectedSize(size);
         const quantity = 1;
-        const totalItemPrice = product.price * quantity;
+        const totalItemPrice = product?.price * quantity;
     
         const cartData = {
-            productId: product.documentId,
+            productId: product?.documentId,
             size,
             quantity,
-            price: product.price,
+            price: product?.price,
             totalItem: totalItemPrice,
-            name: product.title,
+            name: product?.title,
             image: product?.img1?.url
         };
     
@@ -90,7 +89,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
             if (!existingCart || existingCart.length === 0) {
                 // إنشاء سلة جديدة
                 console.log("Creating a new cart with data:", cartData);
-                const newCartResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/carts`, {
+                const newCartResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/carts`, {
                     data: {
                         userId: userId,
                         cart_items: cartProducts.map((item) => ({
@@ -115,15 +114,15 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
             if (existingItem) {
                 // تحديث الكمية إذا كان العنصر موجودًا
                 const newQuantity = existingItem.quantity + 1;
-                const updatedTotalItemPrice = product.price * newQuantity;
+                const updatedTotalItemPrice = product?.price * newQuantity;
     
                 // تحديث عنصر السلة
                 console.log("Updating existing cart item:", existingItem);
-                await axios.put(`${process.env.NEXT_STRAPI_URL}/cart-items/${existingItem.documentId}`, {
+                await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existingItem.documentId}`, {
                   data: {
                               quantity: newQuantity,
                               totalItem: updatedTotalItemPrice,
-                              productId: product.documentId,
+                              productId: product?.documentId,
                               size,
                               name: existingItem.name,
                               image: existingItem.image, 
@@ -133,13 +132,13 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
             } else {
                 // إضافة عنصر جديد إلى السلة
                 console.log("Adding new item to cart:", cartData);
-                const addResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/cart-items`, { data: cartData });
+                const addResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items`, { data: cartData });
     
                 const updatedCartItems = [...existingCartItems, addResponse.data.data];
     
                 // تحديث السلة بدمج العناصر القديمة والجديدة
                 console.log("Updating cart with new items:", updatedCartItems);
-                await axios.put(`${process.env.NEXT_STRAPI_URL}/carts/${updatedCart.documentId}`, {
+                await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${updatedCart.documentId}`, {
                     data: {
                         cart_items: updatedCartItems.map((item: ICartItem) => item.documentId),
                     },
@@ -218,19 +217,19 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
           <div className="right w-full md:w-full lg:w-[40%] p-2  lg:p-8 ">
             <div className="details space-y-4">
               <h2 className="text-2xl font-semibold capitalize text-gray-800">
-              {product.title}
+              {product?.title}
               </h2>
               <p className="text-gray-600 leading-relaxed">
-               {product.desc}
+               {product?.desc}
               </p>
 
              
 
             
               <div className="mt-2 flex items-center space-x-3">
-               {product.oldPrice ? 
+               {product?.oldPrice ? 
                 <p className="line-through text-sm md:text-xl text-gray-500">
-                ${product.oldPrice}
+                ${product?.oldPrice}
               </p>
                : ""}
                 <p className="text-xl md:text-2xl font-bold text-gray-900">

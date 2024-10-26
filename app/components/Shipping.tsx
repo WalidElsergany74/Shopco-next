@@ -116,7 +116,7 @@ const [city, setCity] = useState<string>('');
      setIsLoading(true)
         try {
           const response = await axios.get(
-            `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}`
+            `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}`
           );
           const cartData = response.data.data[0]; // Assuming the user has only one cart
           setExistingCart(cartData);

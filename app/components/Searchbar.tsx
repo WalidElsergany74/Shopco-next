@@ -22,7 +22,7 @@ const Searchbar = ({ searchVisible }: { searchVisible: boolean }) => {
   
 
   const { data: productsData } = useSWR(
-    `${process.env.NEXT_STRAPI_URL}/products?populate=*`,
+    `https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*`,
     fetcher
 );
 

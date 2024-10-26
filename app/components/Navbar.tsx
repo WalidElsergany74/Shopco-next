@@ -46,7 +46,7 @@ const Navbar = () => {
     };
     
     const { data: cartData } = useSWR(
-      userId ? `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
+      userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
       fetcher,
       { refreshInterval: 1000 }
     );
@@ -61,7 +61,7 @@ const Navbar = () => {
    
 
   const { data: productsData } = useSWR(
-    `${process.env.NEXT_STRAPI_URL}/products?populate=*`,
+    `https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*`,
     fetcher
 );
 
@@ -80,7 +80,7 @@ useEffect(() => {
 }, [ searchQuery]); 
 
   const { data: categories  } = useSWR(
-    `${process.env.NEXT_STRAPI_URL}/categories`,
+    `https://strapi-ecommerce-demo2.onrender.com/api/categories`,
     fetcher
 );
 

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 
 export async function getProducts() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/products?populate=img1&populate=img2&populate=color&populate=sizes&populate=sub_category&populate=category`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products?populate=img1&populate=img2&populate=color&populate=sizes&populate=sub_category&populate=category`);
      
     return response?.data
     
@@ -18,7 +18,7 @@ export async function getProducts() {
 }
 export async function getProductsAdmin(page = 1, pageSize = 5) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/products?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=updatedAt:desc&sort=createdAt:desc`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=updatedAt:desc&sort=createdAt:desc`);
      
         return response?.data;
     } catch (error) {
@@ -34,7 +34,7 @@ export async function getProductsAdmin(page = 1, pageSize = 5) {
 
 export async function getProductsType(type : string) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/products?populate=img1&populate=img2&populate=color&populate=sizes&[filters][type][$eq]=${type}` , {
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products?populate=*&[filters][type][$eq]=${type}` , {
           
         });
      
@@ -49,7 +49,7 @@ export async function getProductsType(type : string) {
 }
 export async function getSingleProduct(documentId : string) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/products/${documentId}?populate=color&populate=sizes&populate=img1&populate=img2&populate=img3&populate=reviews&populate=category&populate=sub_category`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products/${documentId}?populate=*`);
       
     return response?.data?.data
     
@@ -62,7 +62,7 @@ export async function getSingleProduct(documentId : string) {
 }
 export async function getSingleCat(documentId : string) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/categories/${documentId}?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/categories/${documentId}?populate=*`);
       
     return response?.data?.data
     
@@ -75,7 +75,7 @@ export async function getSingleCat(documentId : string) {
 }
 export async function getCateogries() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/categories?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/categories?populate=*`);
       
     return response?.data
     
@@ -88,7 +88,7 @@ export async function getCateogries() {
 }
 export async function getFilterCategories(id : {id : string}) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/sub-categories?[filter][categories][id][$eq]=${id}`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/sub-categories?[filter][categories][id][$eq]=${id}`);
       
     return response?.data
     
@@ -101,7 +101,7 @@ export async function getFilterCategories(id : {id : string}) {
 }
 export async function getSubCategories() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/sub-categories?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/sub-categories?populate=*`);
       
     return response?.data
     
@@ -114,7 +114,7 @@ export async function getSubCategories() {
 }
 export async function getSizes() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/sizes?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/sizes?populate=*`);
       
     return response?.data
     
@@ -127,7 +127,7 @@ export async function getSizes() {
 }
 export async function getFilterCats() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/categories?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/categories?populate=*`);
       
     return response?.data
     
@@ -140,7 +140,7 @@ export async function getFilterCats() {
 }
 export async function getFilterColors() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/colors?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/colors?populate=*`);
       
     return response?.data?.data
     
@@ -153,7 +153,7 @@ export async function getFilterColors() {
 }
 export async function getColorsAdmin() {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/colors?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/colors?populate=*`);
       
     return response?.data
     
@@ -166,7 +166,7 @@ export async function getColorsAdmin() {
 }
 export async function getOrdersAdmin(page=1 , pageSize =5) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/orders?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=updatedAt:desc&sort=createdAt:desc`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/orders?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}&sort=updatedAt:desc&sort=createdAt:desc`);
       
     return response?.data
     
@@ -179,7 +179,7 @@ export async function getOrdersAdmin(page=1 , pageSize =5) {
 }
 export async function getOrders(id : string | null) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/orders?filters[userId][$eq]=${id}`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/orders?filters[userId][$eq]=${id}`);
       
     return response?.data
     
@@ -192,7 +192,7 @@ export async function getOrders(id : string | null) {
 }
 export async function getSingleOrder(documentId : string) {
     try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/orders/${documentId}?populate=*`);
+        const response = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/orders/${documentId}?populate=*`);
       
     return response?.data
     
@@ -204,17 +204,5 @@ export async function getSingleOrder(documentId : string) {
     revalidatePath("/admin/orders")
 }
 
-export async function getReviews() {
-    try { 
-        const response = await axios.get(`${process.env.NEXT_STRAPI_URL}/reviews`);
-      
-    return response?.data?.data
-    
-    } catch (error) {
-         console.log(error)
-        
-    }
 
-    revalidatePath("/")
-}
 

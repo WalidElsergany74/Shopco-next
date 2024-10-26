@@ -39,7 +39,7 @@ const AddSize = ({ isOpen, toggleDialog  }: IProps) => {
       
       
           // Send the category data to Strapi
-          const response = await axios.post(`${process.env.NEXT_STRAPI_URL}/sizes?populate=*`, formData);
+          const response = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/sizes`, formData);
       
           console.log("Response data:", response.data);
       

@@ -72,7 +72,7 @@ const DialogCatEdit = ({ isOpenEdit, toggleDialogEdit, category  }: IProps) => {
         uploadFormData.append('files', image);
 
         // Upload image to Strapi
-        const uploadResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/upload`, uploadFormData);
+        const uploadResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/upload`, uploadFormData);
         return uploadResponse.data[0].id; // Return the ID of the uploaded image
       };
 
@@ -90,7 +90,7 @@ const DialogCatEdit = ({ isOpenEdit, toggleDialogEdit, category  }: IProps) => {
       console.log('Form Data:', Array.from(formData.entries()));
 
       // Send the category data to Strapi
-      const response = await axios.put(`${process.env.NEXT_STRAPI_URL}/categories/${category?.documentId}?populate=*`, formData);
+      const response = await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/categories/${category?.documentId}?populate=*`, formData);
 
       console.log('Response data:', response.data);
 

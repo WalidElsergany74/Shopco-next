@@ -24,7 +24,7 @@ const DialogCatDelete = ({ isOpenDelete, toggleDialogDelete, category }: IProps)
     setIsLoading(true);
 
     try {
-     await axios.delete(`${process.env.NEXT_STRAPI_URL}/categories/${category?.documentId}?populate=*`);
+     await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/categories/${category?.documentId}?populate=*`);
 
       toast.success('Category Deleted successfully');
       router.refresh(); 

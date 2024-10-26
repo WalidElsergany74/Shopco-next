@@ -44,7 +44,7 @@ const AddProductDialog = ({ isOpen, toggleDialog  }: IProps) => {
       
       
           // Send the category data to Strapi
-          const response = await axios.post(`${process.env.NEXT_STRAPI_URL}/sub-categories?populate=*`, formData);
+          const response = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/sub-categories?populate=*`, formData);
       
           console.log("Response data:", response.data);
       

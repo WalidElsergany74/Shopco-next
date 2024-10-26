@@ -41,7 +41,7 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
   const fetcher = (url: string) => axios.get(url).then((res) => res.data.data);
 
   const { data: cartData, mutate, isLoading } = useSWR(
-    userId ? `${process.env.NEXT_STRAPI_URL}/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
+    userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
     fetcher,
     // { suspense: true } // Enabling suspense for a global loading state
   );
@@ -77,7 +77,7 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
         return;
       }
 
-      await axios.delete(`${process.env.NEXT_STRAPI_URL}/carts/${cartId}`);
+      await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${cartId}`);
       mutate(); // Refresh cart data
       setItems([]);
       setSubtotal(0);
@@ -92,7 +92,7 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       if (!existsItem) return;
 
       const updatedQuantity = existsItem.quantity + change;
-      const productRes = await axios.get(`${process.env.NEXT_STRAPI_URL}/products/${existsItem.productId}`);
+      const productRes = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products/${existsItem.productId}`);
       const availableStock = productRes.data.data.stock;
 
       if (updatedQuantity > availableStock ) {
@@ -108,9 +108,9 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       const updatedPrice = updatedQuantity * existsItem.price;
 
       if (updatedQuantity === 0) {
-        await axios.delete(`${process.env.NEXT_STRAPI_URL}/cart-items/${existsItem.documentId}`);
+        await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existsItem.documentId}`);
       } else {
-        await axios.put(`${process.env.NEXT_STRAPI_URL}/cart-items/${existsItem.documentId}`, {
+        await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existsItem.documentId}`, {
           data: { quantity: updatedQuantity, totalItem: updatedPrice },
         });
       }
@@ -133,7 +133,7 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       }
   
       // Otherwise, remove the item from the cart
-      await axios.delete(`${process.env.NEXT_STRAPI_URL}/cart-items/${itemId}`);
+      await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${itemId}`);
   
       // After successful deletion, refresh the cart data
       mutate();

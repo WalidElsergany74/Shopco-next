@@ -264,7 +264,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       const uploadImage = async (image: File) => {
         const uploadFormData = new FormData();
         uploadFormData.append('files', image);
-        const uploadResponse = await axios.post(`${process.env.NEXT_STRAPI_URL}/upload`, uploadFormData);
+        const uploadResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/upload`, uploadFormData);
         return uploadResponse.data[0].id; // get the file ID
       };
   
@@ -292,7 +292,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       console.log("Form Data:", Array.from(formData.entries()));
   
     
-       await axios.put(`${process.env.NEXT_STRAPI_URL}/products/${product.documentId}?populate=*`, formData);
+       await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/products/${product.documentId}?populate=*`, formData);
        router.refresh()
       
   
