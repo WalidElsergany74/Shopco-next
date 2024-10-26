@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback, memo } from "react";
 import ButtonIcon from "./ui/ButtonIcon";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
@@ -8,8 +7,6 @@ import { useAuth } from "@clerk/nextjs";
 import useSWR from "swr";
 import SkeletonLoader from "./ui/SkeletonLoader";
 import toast from "react-hot-toast";
-
-
 import { useRouter } from "next/navigation";
 
 interface IDrawer {
@@ -27,66 +24,45 @@ interface ICartItem {
   documentId: string;
   price: number;
   productId: string;
-  createdAt: string; // Add createdAt field for sorting
+  createdAt: string;
 }
 
-const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
+const Drawer = (({ openRight, toggleDrawer }: IDrawer) => {
   const { userId } = useAuth();
-  const [subtotal, setSubtotal] = useState(0);
-  const router= useRouter()
- 
   const [items, setItems] = useState<ICartItem[]>([]);
+  const router = useRouter();
 
-  // Fetcher function with global loading state
   const fetcher = (url: string) => axios.get(url).then((res) => res.data.data);
 
   const { data: cartData, mutate, isLoading } = useSWR(
     userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
-    fetcher,
-    // { suspense: true } // Enabling suspense for a global loading state
+    fetcher
   );
 
   // Sort cart items by creation date
   useEffect(() => {
     if (cartData && cartData.length > 0) {
       const cartItems = cartData[0]?.cart_items || [];
-      // Sort items by createdAt field
       const sortedItems = [...cartItems].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       setItems(sortedItems);
     }
   }, [cartData]);
 
-  useEffect(() => {
-    const calculateSubtotal = (cartProducts: ICartItem[]) => {
-      const totalAmount = cartProducts.reduce(
-        (acc: number, item: ICartItem) => acc + item.totalItem,
-        0
-      );
-      setSubtotal(totalAmount);
-    };
-    if (items.length > 0) {
-      calculateSubtotal(items);
-    }
-  }, [items]);
+  const subtotal = useMemo(() => items.reduce((acc, item) => acc + item.totalItem, 0), [items]);
 
-  const handleClearCart = async () => {
+  const handleClearCart = useCallback(async () => {
     try {
       const cartId = cartData?.[0]?.documentId;
-      if (!cartId) {
-        console.log("No cart found for this user");
-        return;
-      }
-
+      if (!cartId) return;
       await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${cartId}`);
-      mutate(); // Refresh cart data
+      mutate();
       setItems([]);
-      setSubtotal(0);
     } catch (error) {
       console.error("Error clearing cart", error);
     }
-  };
+  }, [cartData, mutate]);
 
-  const handleUpdateQuantity = async (itemId: string, change: number) => {
+  const handleUpdateQuantity = useCallback(async (itemId: string, change: number) => {
     try {
       const existsItem = items.find((item) => item.documentId === itemId);
       if (!existsItem) return;
@@ -95,54 +71,35 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       const productRes = await axios.get(`https://strapi-ecommerce-demo2.onrender.com/api/products/${existsItem.productId}`);
       const availableStock = productRes.data.data.stock;
 
-      if (updatedQuantity > availableStock ) {
-        toast.error("Stock is less than quantity  ", { duration: 4000, position: "top-center" });
-        return;
-      }
-
-      if ( updatedQuantity < 1) {
-        toast.error(" invalid quantity ", { duration: 4000, position: "top-center" });
+      if (updatedQuantity > availableStock || updatedQuantity < 1) {
+        toast.error(updatedQuantity > availableStock ? "Stock is less than quantity" : "Invalid quantity", { duration: 4000, position: "top-center" });
         return;
       }
 
       const updatedPrice = updatedQuantity * existsItem.price;
+      await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existsItem.documentId}`, {
+        data: { quantity: updatedQuantity, totalItem: updatedPrice },
+      });
 
-      if (updatedQuantity === 0) {
-        await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existsItem.documentId}`);
-      } else {
-        await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existsItem.documentId}`, {
-          data: { quantity: updatedQuantity, totalItem: updatedPrice },
-        });
-      }
-
-      mutate(); // Refresh cart data
+      mutate();
     } catch (error) {
       console.log("Error updating quantity", error);
     }
-  };
-  const handleRemoveItem = async (itemId: string) => {
+  }, [items, mutate]);
+
+  const handleRemoveItem = useCallback(async (itemId: string) => {
     try {
-      const foundItem = items.find((item) => item.documentId === itemId);
-      
-      if (!foundItem) return;
-  
-      // If this is the last item in the cart, delete the entire cart
       if (items.length === 1) {
-        await handleClearCart(); // Clear the whole cart
+        await handleClearCart();
         return;
       }
-  
-      // Otherwise, remove the item from the cart
+
       await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${itemId}`);
-  
-      // After successful deletion, refresh the cart data
       mutate();
-      
     } catch (error) {
       console.log("Error removing item", error);
     }
-  };
-  
+  }, [items, mutate, handleClearCart]);
 
   return (
     <div className="relative">
@@ -159,11 +116,7 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       >
         <div className="flex justify-between items-start p-4 border-t border-b border-gray-100">
           <span className="uppercase text-gray-500">Items in your bag</span>
-          <ButtonIcon
-            onClick={toggleDrawer}
-            className="text-gray-600 flex justify-end"
-            aria-label="Close menu"
-          >
+          <ButtonIcon onClick={toggleDrawer} className="text-gray-600 flex justify-end" aria-label="Close menu">
             <AiOutlineClose size={24} />
           </ButtonIcon>
         </div>
@@ -253,6 +206,6 @@ const Drawer = ({ openRight, toggleDrawer }: IDrawer) => {
       </div>
     </div>
   );
-};
+});
 
-export default Drawer;
+export default memo(Drawer);
