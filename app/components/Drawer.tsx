@@ -31,7 +31,7 @@ const Drawer = (({ openRight, toggleDrawer }: IDrawer) => {
   const { userId } = useAuth();
   const [items, setItems] = useState<ICartItem[]>([]);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [isFirstItemLoading, setIsFirstItemLoading] = useState(false); // لودينج عند إضافة أول منتج
+  const [isFirstItemLoading, setIsFirstItemLoading] = useState(false); 
   const router = useRouter();
 
   const fetcher = (url: string) => axios.get(url).then((res) => res.data.data);
@@ -46,7 +46,7 @@ const Drawer = (({ openRight, toggleDrawer }: IDrawer) => {
       const cartItems = cartData[0]?.cart_items || [];
       const sortedItems = [...cartItems].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       setItems(sortedItems);
-      setIsFirstItemLoading(false); // إيقاف اللودينج بعد تحميل المنتج الأول
+      setIsFirstItemLoading(false); 
     }
   }, [cartData]);
 
