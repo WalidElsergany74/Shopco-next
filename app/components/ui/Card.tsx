@@ -29,14 +29,14 @@ import { useRouter } from 'next/navigation';
 
 const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps) => {
     const discountPercentage = Math.round(((item?.oldPrice - item?.price) / item?.oldPrice) * 100);
-    
+    const [loading, setLoading] = useState(false);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
    
     const {userId} = useAuth()
     const router = useRouter();
     const fetcher = async (url: string) => {
         const response = await axios.get(url);
-        return response.data.data; // Assuming the user has only one cart
+        return response.data.data; 
       };
       
      
@@ -57,7 +57,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
             router.push('/sign-in');
             return;
         }
-    
+        setLoading(true);
         setSelectedSize(size);
         const quantity = 1;
         const totalItemPrice = item.price * quantity;
@@ -125,7 +125,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
     
                 const updatedCartItems = [...existingCartItems, addResponse.data.data];
     
-                // تحديث السلة بدمج العناصر القديمة والجديدة
+             
                 console.log("Updating cart with new items:", updatedCartItems);
                 await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${updatedCart.documentId}`, {
                     data: {
@@ -134,7 +134,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                 });
             }
     
-            // تحديث بيانات السلة باستخدام SWR mutate
+         
             mutate();
             toast.success('Item added to cart successfully', {
                 duration: 3000,
@@ -146,6 +146,8 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                 duration: 4000,
                 position: 'top-center',
             });
+        }finally {
+            setLoading(false)
         }
     
         toggleShowSizes();
@@ -172,7 +174,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                     </div>
                 )}
 
-                {/* قائمة اختيار الأحجام */}
+               
                 <div className={`absolute bottom-0 bg-white  left-0 w-full transition-all duration-500  ${showSizes ? "translate-y-0 opacity-[0.8] z-10" : "translate-y-6 opacity-0 z-0"}`}>
                     <div className="p-4 flex flex-col items-center space-y-2">
                         <p className="text-center font-semibold text-gray-700">Add Size</p>
