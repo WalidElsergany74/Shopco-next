@@ -182,6 +182,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
 
                             {item?.sizes.map((size) => (
                                   <ButtonIcon 
+                                    disabled={loading}
                                   onClick={() => handleAddToCart(size.title)}
                                   key={size.id} className={`border flex justify-center border-gray-300 py-1 px-5 text-sm font-medium hover:outline-stone-500 hover:border-stone-500 hover:border-2 transition-all duration-100  focus:outline-none focus:ring-2 focus:ring-gray-400 ${selectedSize && "bg-black text-white"}`}>
                                 {size.title}
@@ -242,10 +243,14 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                     </div>
                 </div>
 
-                <ButtonIcon onClick={toggleShowSizes} className="mt-2 cursor-pointer lg:mt-0 w-full h-fit text-base md:text-lg rounded-md bg-black text-white flex items-center justify-center space-x-1 py-2 px-1 font-medium md:py-2 md:px-3">
-                    <MdOutlineShoppingBag size={16} />
-                    <span>Add</span>
-                </ButtonIcon>
+                   <ButtonIcon
+          onClick={toggleShowSizes}
+          disabled={loading} 
+          className="mt-2 cursor-pointer lg:mt-0 w-full h-fit text-base md:text-lg rounded-md bg-black text-white flex items-center justify-center space-x-1 py-2 px-1 font-medium md:py-2 md:px-3"
+        >
+          {loading ? <AiOutlineLoading3Quarters className="animate-spin" size={16} /> : <MdOutlineShoppingBag size={16} />}
+          <span>{loading ? "Adding..." : "Add"}</span>
+        </ButtonIcon>
             </div>
             
         </div>
