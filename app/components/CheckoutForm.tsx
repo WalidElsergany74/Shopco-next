@@ -77,7 +77,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
         clientSecret,
         elements,
         confirmParams: {
-          return_url: 'https://shopco-next-eight.vercel.app/payment-confirm',
+          return_url: 'https://shopco-next-1.onrender.com/payment-confirm',
         },
       });
 
