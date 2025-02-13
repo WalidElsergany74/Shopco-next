@@ -30,6 +30,7 @@ const Categories = ({cats} : CategoriesProps) => {
                   width={800}
                   height={500}
                   quality={85}
+                    priority
                     alt="categories"
                     src={cat?.img?.url}
                     className="object-cover w-full h-full"
