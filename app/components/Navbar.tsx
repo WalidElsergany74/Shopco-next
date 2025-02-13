@@ -159,7 +159,7 @@ useEffect(() => {
       {!categories ? <Loading/> : (
         categories.map((cat : ICategories) => (
           <li className="border-b border-b-gray-100 w-full" key={cat.id}>
-        <Link href={"/men"} className="text-xl tracking-widest uppercase font-bold hover:text-gray-500 py-3 px-5 hover:bg-gray-100 transition-colors duration-300 block">
+        <Link  href={`/products/${cat.documentId}`}  className="text-xl tracking-widest uppercase font-bold hover:text-gray-500 py-3 px-5 hover:bg-gray-100 transition-colors duration-300 block">
           {cat.title}
         </Link>
        
