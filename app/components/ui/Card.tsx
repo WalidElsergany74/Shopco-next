@@ -196,6 +196,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                <Link  href={`/product/${item?.documentId}`}>
                <Image
                     src={item?.img1?.url}
+                    priority
                     quality={85}
                      width={700}
                      height={500}
