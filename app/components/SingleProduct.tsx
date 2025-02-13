@@ -85,9 +85,9 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
         try {
             let updatedCart;
             
-            console.log("Existing cart data:", existingCart); // مراجعة السلة الحالية
+            console.log("Existing cart data:", existingCart); 
             if (!existingCart || existingCart.length === 0) {
-                // إنشاء سلة جديدة
+               
                 console.log("Creating a new cart with data:", cartData);
                 const newCartResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/carts`, {
                     data: {
@@ -99,24 +99,24 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
                 });
                 updatedCart = newCartResponse.data.data;
             } else {
-                // استخدام السلة الحالية
-                updatedCart = existingCart[0]; // لأن SWR قد يعيد قائمة بالسلات
+               
+                updatedCart = existingCart[0]; 
             }
     
             const existingCartItems = updatedCart.cart_items || [];
             
-            // التحقق مما إذا كان المنتج بالحجم المحدد موجود بالفعل في السلة
+            
             const existingItem = existingCartItems.find(
                 (cartItem: ICartItem) =>
                     cartItem.productId === product.documentId && cartItem.size === size
             );
     
             if (existingItem) {
-                // تحديث الكمية إذا كان العنصر موجودًا
+              
                 const newQuantity = existingItem.quantity + 1;
                 const updatedTotalItemPrice = product?.price * newQuantity;
     
-                // تحديث عنصر السلة
+         
                 console.log("Updating existing cart item:", existingItem);
                 await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items/${existingItem.documentId}`, {
                   data: {
@@ -130,13 +130,13 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
                             }
                 });
             } else {
-                // إضافة عنصر جديد إلى السلة
+               
                 console.log("Adding new item to cart:", cartData);
                 const addResponse = await axios.post(`https://strapi-ecommerce-demo2.onrender.com/api/cart-items`, { data: cartData });
     
                 const updatedCartItems = [...existingCartItems, addResponse.data.data];
     
-                // تحديث السلة بدمج العناصر القديمة والجديدة
+                
                 console.log("Updating cart with new items:", updatedCartItems);
                 await axios.put(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${updatedCart.documentId}`, {
                     data: {
@@ -145,7 +145,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
                 });
             }
     
-            // تحديث بيانات السلة باستخدام SWR mutate
+            
             mutate();
             toast.success('Item added to cart successfully', {
                 duration: 3000,
@@ -178,6 +178,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
                 width={800}
                 height={500}
                 quality={85}
+                priority
                 className="w-auto  md:w-auto lg:w-full h-[150px]  object-contain md:object-contain  lg:object-cover cursor-pointer mb-[10px] "
                 alt="..."
                 src={product?.img1?.url}
