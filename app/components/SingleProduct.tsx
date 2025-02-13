@@ -27,7 +27,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
  
 
 
-   
+    const [loading,setLoading] =  useState(false)
     const [selectedSize, setSelectedSize] = useState("S"); 
     const [drawerOpen, setDrawerOpen] = useState(false); 
  
@@ -49,7 +49,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
         return response.data.data[0]; // Assuming the user has only one cart
       };
       
-      // استخدام SWR لجلب بيانات السلة
+    
       const { data: existingCart, mutate } = useSWR(
         userId ? `https://strapi-ecommerce-demo2.onrender.com/api/carts?populate=cart_items&filters[userId][$eq]=${userId}` : null,
         fetcher, {refreshInterval : 1000}
@@ -83,6 +83,7 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
         };
     
         try {
+         setLoading(true)
             let updatedCart;
             
             console.log("Existing cart data:", existingCart); 
@@ -157,6 +158,8 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
                 duration: 4000,
                 position: 'top-center',
             });
+        }finally{
+         setLoading(false)
         }
     
       
@@ -298,9 +301,9 @@ const SingleProduct = ({product , products} : {product : IProduct , products : I
            
           
 
-            <ButtonIcon  onClick={()=> handleAddToCart(selectedSize)}  className="mt-4 w-full text-lg rounded-md bg-black text-white py-3 px-6 font-medium flex items-center justify-center space-x-2 hover:bg-gray-800 transition-all duration-300">
+            <ButtonIcon disabled={loading}  onClick={()=> handleAddToCart(selectedSize)}  className="mt-4 disabled:bg-gray-900  w-full text-lg rounded-md bg-black text-white py-3 px-6 font-medium flex items-center justify-center space-x-2 hover:bg-gray-800 transition-all duration-300">
               <MdOutlineShoppingBag size={20} />
-              <span>ADD TO CART</span>
+              <span>{loading ? "ADDING..." : "ADD TO CART"}</span>
             </ButtonIcon>
 
            
