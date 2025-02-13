@@ -243,7 +243,7 @@ const Card = ({   item, toggleDrawer, showSizes, toggleShowSizes  } : ICardProps
                     </div>
                 </div>
 
-        <ButtonIcon disabled={loading} onClick={toggleShowSizes} className="mt-2 cursor-pointer lg:mt-0 w-full h-fit text-base md:text-lg rounded-md bg-black text-white flex items-center justify-center space-x-1 py-2 px-1 font-medium md:py-2 md:px-3">
+        <ButtonIcon disabled={loading} onClick={toggleShowSizes} className="mt-2 disabled:bg-gray-900 cursor-pointer lg:mt-0 w-full h-fit text-base md:text-lg rounded-md bg-black text-white flex items-center justify-center space-x-1 py-2 px-1 font-medium md:py-2 md:px-3">
                     <MdOutlineShoppingBag size={16} />
                     <span>{loading ? "Adding.." : "Add"}</span>
                 </ButtonIcon>
