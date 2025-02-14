@@ -61,7 +61,7 @@ const NavAdmin = () => {
     <div className="flex items-center gap-0.5   md:gap-1 lg:gap-2">
 
 
-    {user && user.user?.primaryEmailAddress?.emailAddress === "walidemad998@gmail.com" && (
+    {user && user.user?.primaryEmailAddress?.emailAddress === "walidelsergany1@gmail.com" && (
           <Link href={"/admin"}>
             <ButtonIcon className='bg-black  text-white   py-1 px-2 rounded-xl'>Admin</ButtonIcon>
           </Link>
