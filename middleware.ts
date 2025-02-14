@@ -12,7 +12,7 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Check if the user ID is not equal to the specified ID
-  // if (userId !== "user_2nK2ExRVxqJFzFBdvPuhLoatgeI" && isProtectedRoute(req)) {
+  // if (userId !== "user_2nFNtYI9mhSxxSarodAkEllDE68" && isProtectedRoute(req)) {
   //   // Redirect to the homepage
   //   return Response.redirect('https://shopco-next.onrender.com/globalRedirect', 302)
   // }
