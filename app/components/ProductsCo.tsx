@@ -49,7 +49,7 @@ const ProductsCo = ({data , id , colors  } : {data : IFiltered[] , id : string ,
       };
 
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-         const value = e.target .value
+         const value = e.target.value
          const isChecked = e.target.checked
 
          setSelectedSubCats(isChecked ? [...selectedSubCats , value] : selectedSubCats.filter((item) => item !== value))
