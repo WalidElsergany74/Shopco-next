@@ -134,7 +134,7 @@ const CheckoutForm = ({ amount }: { amount: number }) => {
 
         if (orderResponse.status === 200 || orderResponse.status === 201) {
           const cartId = existingCart?.documentId;
-          await axios.delete(`https://strapi-ecommerce-demo2.onrender.com/api/carts/${cartId}`);
+          await axios.delete(`https://shopco-next-eight.vercel.app/api/carts/${cartId}`);
         }
       }
     } catch (error) {
