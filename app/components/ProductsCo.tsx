@@ -56,7 +56,7 @@ const ProductsCo = ({data , id , colors  } : {data : IFiltered[] , id : string ,
 
       };
     const handleChangeColors = (e : React.ChangeEvent<HTMLInputElement>) => {
-         const value = e.target .value
+         const value = e.target.value
          const isChecked = e.target.checked
 
          setSelectedColors(isChecked ? [...selectedColors , value] : selectedColors.filter((item) => item !== value))
